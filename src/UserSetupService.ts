@@ -24,7 +24,7 @@ export default class UserSetupService {
       title: 'Input a Backlog domain',
       placeHolder: 'xxx.backlog.jp',
       ignoreFocusOut: true,
-      value: this.context.globalState.get('domain') ?? ''
+      value: this.context.globalState.get('domain') ?? '',
     });
 
     if (domain === undefined || domain === '') {
@@ -38,7 +38,7 @@ export default class UserSetupService {
     const apiKey = await window.showInputBox({
       title: 'Input a Baclog API key',
       ignoreFocusOut: true,
-      value: this.context.globalState.get('apiKey') ?? ''
+      value: this.context.globalState.get('apiKey') ?? '',
     });
 
     if (apiKey === undefined || apiKey === '') {

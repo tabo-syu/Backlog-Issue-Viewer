@@ -1,9 +1,9 @@
-import { TreeDataProvider, TreeItem } from "vscode";
+import { TreeDataProvider, TreeItem } from 'vscode';
 
-// export class BacklogIssuesTreeProvider implements TreeDataProvider<BacklogIssueTreeItem> {
-//   constructor() {
-
-//   }
+// export class BacklogIssuesTreeProvider
+//   implements TreeDataProvider<BacklogIssueTreeItem>
+// {
+//   constructor() {}
 // }
 
-export class BacklogIssueTreeItem extends TreeItem { }
+export class BacklogIssueTreeItem extends TreeItem {}

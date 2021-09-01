@@ -19,7 +19,9 @@ export default class BaseClient {
   protected async get<T>(path: string, params?: Params): Promise<T> {
     const query = new URLSearchParams({ apiKey: this.apiKey, ...params });
 
-    const response = await fetch(`${this.endpoint}${this.path}/${path}?${query}`);
+    const response = await fetch(
+      `${this.endpoint}${this.path}/${path}?${query}`
+    );
 
     return response.json() as Promise<T>;
   }

@@ -1,5 +1,5 @@
-import BaseClient from "../BaseClient";
-import { UserResponse } from "../types";
+import BaseClient from '../BaseClient';
+import { UserResponse } from '../types';
 
 export default class Users extends BaseClient {
   constructor(endpoint: string, apiKey: string) {
@@ -7,7 +7,10 @@ export default class Users extends BaseClient {
   }
 
   async fetch(id: 'myself' | string) {
-    const user = id === 'myself' ? await this.get<UserResponse>('myself') : await this.get<UserResponse>(id);
+    const user =
+      id === 'myself'
+        ? await this.get<UserResponse>('myself')
+        : await this.get<UserResponse>(id);
 
     return user;
   }
