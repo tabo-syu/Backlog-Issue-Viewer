@@ -1,40 +1,35 @@
 import { ExtensionContext, window } from 'vscode';
-import BacklogApiClient from './utils/backlogApi';
 
 export default class UserSetupService {
-  context: ExtensionContext;
-
-  constructor(context: ExtensionContext) {
-    this.context = context;
-  }
+  constructor(private context: ExtensionContext) {}
 
   async setup() {
     try {
-      const domain = await this.#inputBacklogDomain();
-      const apiKey = await this.#inputBacklogApiKey();
-      const userId = await this.#selectBacklogUserId(domain, apiKey);
-      await this.#registGlobalState(domain, apiKey, userId.toString());
+      const domain = await this.inputBacklogHost();
+      const apiKey = await this.inputBacklogApiKey();
+      await this.registGlobalState(domain, apiKey);
     } catch (error) {
+      //@ts-ignore
       window.showErrorMessage(error.message);
     }
   }
 
-  async #inputBacklogDomain(): Promise<string> {
-    const domain = await window.showInputBox({
+  private async inputBacklogHost(): Promise<string> {
+    const host = await window.showInputBox({
       title: 'Input a Backlog domain',
       placeHolder: 'xxx.backlog.jp',
       ignoreFocusOut: true,
-      value: this.context.globalState.get('domain') ?? '',
+      value: this.context.globalState.get('host') ?? '',
     });
 
-    if (domain === undefined || domain === '') {
-      throw new Error('Domain is a required');
+    if (host === undefined || host === '') {
+      throw new Error('Host is a required');
     }
 
-    return domain;
+    return host;
   }
 
-  async #inputBacklogApiKey(): Promise<string> {
+  private async inputBacklogApiKey(): Promise<string> {
     const apiKey = await window.showInputBox({
       title: 'Input a Baclog API key',
       ignoreFocusOut: true,
@@ -48,16 +43,8 @@ export default class UserSetupService {
     return apiKey;
   }
 
-  async #selectBacklogUserId(domain: string, apiKey: string) {
-    const client = new BacklogApiClient(domain, apiKey);
-    const { id } = await client.users.fetch('myself');
-
-    return id;
-  }
-
-  async #registGlobalState(domain: string, apiKey: string, userId: string) {
+  private async registGlobalState(domain: string, apiKey: string) {
     this.context.globalState.update('domain', domain);
     this.context.globalState.update('apiKey', apiKey);
-    this.context.globalState.update('userId', userId);
   }
 }

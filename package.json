@@ -10,6 +10,7 @@
     "Other"
   ],
   "activationEvents": [
+    "onView:backlogIssues",
     "onCommand:backlog-issue-viewer.setup"
   ],
   "main": "./out/extension.js",
