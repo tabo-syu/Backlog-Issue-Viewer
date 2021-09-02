@@ -1,27 +1,30 @@
 import fetch from 'node-fetch';
-import { URLSearchParams } from 'url';
+import qs from 'qs';
 
 type Params = {
-  [key: string]: string;
+  [key: string]: string | string[] | number | number[];
 };
 
 export default class BaseClient {
-  endpoint: string;
-  path: string;
-  apiKey: string;
-
-  constructor(endpoint: string, path: string, apiKey: string) {
-    this.endpoint = endpoint;
-    this.path = path;
-    this.apiKey = apiKey;
-  }
+  constructor(
+    private endpoint: string,
+    private path: string,
+    private apiKey: string
+  ) {}
 
   protected async get<T>(path: string, params?: Params): Promise<T> {
-    const query = new URLSearchParams({ apiKey: this.apiKey, ...params });
-
-    const response = await fetch(
-      `${this.endpoint}${this.path}/${path}?${query}`
+    const query = qs.stringify(
+      { ...params, apiKey: this.apiKey },
+      { arrayFormat: 'brackets' }
     );
+
+    let url = `${this.endpoint}${this.path}`;
+    if (path) {
+      url += `/${path}`;
+    }
+    const request = `${url}?${query}`;
+    console.log(request);
+    const response = await fetch(request);
 
     return response.json() as Promise<T>;
   }

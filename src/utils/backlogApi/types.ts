@@ -1,3 +1,7 @@
+/**
+ * Implement only the types We need.
+ */
+
 export type UserResponse = {
   id: number;
   userId: string;

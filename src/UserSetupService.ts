@@ -5,9 +5,9 @@ export default class UserSetupService {
 
   async setup() {
     try {
-      const domain = await this.inputBacklogHost();
+      const host = await this.inputBacklogHost();
       const apiKey = await this.inputBacklogApiKey();
-      await this.registGlobalState(domain, apiKey);
+      await this.registGlobalState(host, apiKey);
     } catch (error) {
       //@ts-ignore
       window.showErrorMessage(error.message);
@@ -16,7 +16,7 @@ export default class UserSetupService {
 
   private async inputBacklogHost(): Promise<string> {
     const host = await window.showInputBox({
-      title: 'Input a Backlog domain',
+      title: 'Input a Backlog host',
       placeHolder: 'xxx.backlog.jp',
       ignoreFocusOut: true,
       value: this.context.globalState.get('host') ?? '',
@@ -43,8 +43,8 @@ export default class UserSetupService {
     return apiKey;
   }
 
-  private async registGlobalState(domain: string, apiKey: string) {
-    this.context.globalState.update('domain', domain);
+  private async registGlobalState(host: string, apiKey: string) {
+    this.context.globalState.update('host', host);
     this.context.globalState.update('apiKey', apiKey);
   }
 }

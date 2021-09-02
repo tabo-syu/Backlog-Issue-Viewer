@@ -1,9 +1,6 @@
-import 'isomorphic-form-data';
-import 'isomorphic-fetch';
-
 import { commands, ExtensionContext, window } from 'vscode';
-import { Backlog } from 'backlog-js';
 import UserSetupService from './UserSetupService';
+import BacklogApiClient from './utils/backlogApi';
 import { BacklogIssuesTreeProvider } from './BacklogIssuesTreeView';
 
 // this method is called when your extension is activated
@@ -20,7 +17,7 @@ export function activate(context: ExtensionContext) {
   const host = context.globalState.get('host');
   const apiKey = context.globalState.get('apiKey');
   if (typeof host === 'string' && typeof apiKey === 'string') {
-    const client = new Backlog({ host, apiKey });
+    const client = new BacklogApiClient(host, apiKey);
     window.createTreeView('backlogIssues', {
       treeDataProvider: new BacklogIssuesTreeProvider(client),
     });
